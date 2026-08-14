@@ -55,6 +55,15 @@ normal_target:
   type: pandas.CSVDataset
   filepath: data/01_raw/attributes_normal_target_test.csv
 
+df_splitted:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/BrushlessMotor_testfolder_dataset_splitted.csv
+
+time_series_folder:
+  type: partitions.PartitionedDataset
+  path: data/01_raw/time_series_data
+  dataset: pandas.ParquetDataset
+
 companies:
   type: pandas.CSVDataset
   filepath: data/01_raw/companies.csv
