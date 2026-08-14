@@ -3,7 +3,7 @@ install:
 
 lint:
 # 	uv run pylint src/
-	uv run nbqa pylint --disable=C notebooks/
+	uv run nbqa pylint --disable=C,redefined-outer-name --additional-builtins=catalog,display notebooks/
 
 format:
 	uv run black notebooks/
