@@ -155,3 +155,5 @@ venv.bak/
 mlflow.db
 mlruns.db
 mlruns/*
+
+!data/03_primary/dataset_splitted.csv
