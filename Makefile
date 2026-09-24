@@ -6,7 +6,7 @@ lint:
 	uv run nbqa pylint --disable=C,redefined-outer-name --additional-builtins=catalog,display notebooks/
 
 format:
-	uv run black notebooks/
+	uv run black src/ notebooks/
 
 jupyter:
 	uv run kedro jupyter lab
