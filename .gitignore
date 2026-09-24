@@ -154,3 +154,4 @@ venv.bak/
 
 mlflow.db
 mlruns.db
+mlruns/*
