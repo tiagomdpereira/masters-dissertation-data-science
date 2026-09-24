@@ -11,4 +11,11 @@ format:
 jupyter:
 	uv run kedro jupyter lab
 
+train:
+	kedro run --pipelines=training
 
+experiments:
+	uv run run_experiments.py
+
+mlflow:
+	uv run mlflow ui --backend-store-uri sqlite:///mlruns.db
