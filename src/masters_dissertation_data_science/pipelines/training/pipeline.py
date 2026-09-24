@@ -6,6 +6,7 @@ from .nodes import (
     generate_evaluation_plot,
 )
 
+
 def create_pipeline(**kwargs) -> Pipeline:
     return pipeline(
         [
@@ -13,8 +14,8 @@ def create_pipeline(**kwargs) -> Pipeline:
             node(
                 func=prepare_dataloader,
                 inputs=[
-                    "time_series_folder",  
-                    "df_splitted",  
+                    "time_series_folder",
+                    "df_splitted",
                     "params:domain_shift_op",
                     "params:anomaly_label",
                     "params:seq_len",
