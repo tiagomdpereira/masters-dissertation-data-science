@@ -1,0 +1,19 @@
+training:
+  domain_shift_op: "spd1400"
+  anomaly_label: "belt"
+  seq_len: 100
+  target_length: 37100
+  feature_dim: 3
+  latent_dim: 50
+  batch_size: 32
+  epochs: 300
+  learning_rate: 0.0001
+  device: "cpu"
+
+inference:
+  seq_len: 100
+  target_length: 37100
+  feature_dim: 3
+  latent_dim: 50
+  batch_size: 32
+  device: "cpu"

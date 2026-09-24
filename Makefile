@@ -6,9 +6,16 @@ lint:
 	uv run nbqa pylint --disable=C,redefined-outer-name --additional-builtins=catalog,display notebooks/
 
 format:
-	uv run black notebooks/
+	uv run black src/ notebooks/
 
 jupyter:
 	uv run kedro jupyter lab
 
+train:
+	kedro run --pipelines=training
 
+experiments:
+	uv run run_experiments.py
+
+mlflow:
+	uv run mlflow ui --backend-store-uri sqlite:///mlruns.db

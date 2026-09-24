@@ -1,121 +1,31 @@
-# Here you can define all your data sets by using simple YAML syntax.
-#
-# Documentation for this file format can be found in "The Data Catalog"
-# Link: https://docs.kedro.org/en/stable/data/data_catalog.html
-#
-# We support interacting with a variety of data stores including local file systems, cloud, network and HDFS
-#
-# An example data set definition can look as follows:
-#
-#bikes:
-#  type: pandas.CSVDataset
-#  filepath: "data/01_raw/bikes.csv"
-#
-#weather:
-#  type: spark.SparkDataset
-#  filepath: s3a://your_bucket/data/01_raw/weather*
-#  file_format: csv
-#  credentials: dev_s3
-#  load_args:
-#    header: True
-#    inferSchema: True
-#  save_args:
-#    sep: '|'
-#    header: True
-#
-#scooters:
-#  type: pandas.SQLTableDataset
-#  credentials: scooters_credentials
-#  table_name: scooters
-#  load_args:
-#    index_col: ['name']
-#    columns: ['name', 'gear']
-#  save_args:
-#    if_exists: 'replace'
-#    # if_exists: 'fail'
-#    # if_exists: 'append'
-#
-# The Data Catalog supports being able to reference the same file using two different Dataset implementations
-# (transcoding), templating and a way to reuse arguments that are frequently repeated. See more here:
-# https://docs.kedro.org/en/stable/data/data_catalog.html
-
-anomaly_source:
+training.df_splitted:
   type: pandas.CSVDataset
-  filepath: data/01_raw/attributes_anomaly_source_test.csv
+  filepath: data/03_primary/dataset_splitted.csv
 
-anomaly_target:
-  type: pandas.CSVDataset
-  filepath: data/01_raw/attributes_anomaly_target_test.csv
-
-normal_source:
-  type: pandas.CSVDataset
-  filepath: data/01_raw/attributes_normal_source_test.csv
-
-normal_target:
-  type: pandas.CSVDataset
-  filepath: data/01_raw/attributes_normal_target_test.csv
-
-df_splitted:
-  type: pandas.CSVDataset
-  filepath: data/01_raw/BrushlessMotor_testfolder_dataset_splitted.csv
-
-time_series_folder:
+training.time_series_folder:
   type: partitions.PartitionedDataset
-  path: data/01_raw/time_series_data
-  dataset: pandas.ParquetDataset
+  path: data/03_primary/time_series_data/test
+  dataset:
+    type: pandas.ParquetDataset
 
-companies:
-  type: pandas.CSVDataset
-  filepath: data/01_raw/companies.csv
+training.trained_model_weights:
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataset
+  dataset:
+    type: pickle.PickleDataset
+    filepath: data/06_models/weights_trained_model.pt
+  artifact_path: models
 
-reviews:
-  type: pandas.CSVDataset
-  filepath: data/01_raw/reviews.csv
+training.training_history:
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataset
+  dataset:
+    type: pickle.PickleDataset
+    filepath: data/07_model_output/training_history.pkl
+  artifact_path: metrics
 
-shuttles:
-  type: pandas.ExcelDataset
-  filepath: data/01_raw/shuttles.xlsx
-  load_args:
-    engine: openpyxl
-
-preprocessed_companies:
-  type: pandas.ParquetDataset
-  filepath: data/02_intermediate/preprocessed_companies.parquet
-
-preprocessed_shuttles:
-  type: pandas.ParquetDataset
-  filepath: data/02_intermediate/preprocessed_shuttles.parquet
-
-model_input_table:
-  type: pandas.ParquetDataset
-  filepath: data/03_primary/model_input_table.parquet
-
-regressor:
-  type: pickle.PickleDataset
-  filepath: data/06_models/regressor.pickle
-  versioned: true
-
-shuttle_passenger_capacity_plot_exp:
-  type: plotly.PlotlyDataset
-  filepath: data/08_reporting/shuttle_passenger_capacity_plot_exp.json
-  versioned: true
-  plotly_args:
-    type: bar
-    fig:
-      x: shuttle_type
-      y: passenger_capacity
-      orientation: h
-    layout:
-      xaxis_title: Shuttles
-      yaxis_title: Average passenger capacity
-      title: Shuttle Passenger capacity
-
-shuttle_passenger_capacity_plot_go:
-  type: plotly.JSONDataset
-  filepath: data/08_reporting/shuttle_passenger_capacity_plot_go.json
-  versioned: true
-
-dummy_confusion_matrix:
-  type: matplotlib.MatplotlibDataset
-  filepath: data/08_reporting/dummy_confusion_matrix.png
-  versioned: true
+training.evaluation_plots:
+  type: kedro_mlflow.io.artifacts.MlflowArtifactDataset
+  dataset:
+    type: matplotlib.MatplotlibDataset
+    filepath: data/08_reporting/evaluation_plots.png
+  artifact_path: plots
+  
